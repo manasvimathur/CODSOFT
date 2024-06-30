@@ -1,4 +1,5 @@
-// Number Guessing Game CPP program\
+// Number Guessing Game CPP program\\
+
 #include <iostream>
 #include <cstdlib> 
 #include <ctime>
