@@ -1,19 +1,15 @@
-// ToDoList CPP porgram
+// ToDoList CPP program
 #include <iostream>
 #include <vector>
 #include <string>
-#include <map>
-#include <algorithm>
 
 using namespace std;
-
 
 struct Task {
     int id;
     string description;
     bool isCompleted;
 };
-
 
 void addTask(vector<Task>& tasks) {
     Task newTask;
@@ -25,7 +21,6 @@ void addTask(vector<Task>& tasks) {
     tasks.push_back(newTask);
     cout << "Task added successfully!\n";
 }
-
 
 void viewTasks(const vector<Task>& tasks) {
     cout << "Tasks:\n";
@@ -44,38 +39,31 @@ void markTaskAsCompleted(vector<Task>& tasks) {
     cout << "Enter the task ID to mark as completed: ";
     cin >> taskId;
 
-
-    auto it = find_if(tasks.begin(), tasks.end(), [taskId](const auto& task) {
-        return task.id == taskId;
-    });
-
    
-    if (it!= tasks.end()) {
-        it->isCompleted = true;
-        cout << "Task marked as completed!\n";
-    } else {
-        cout << "Invalid task ID!\n";
+    for (auto& task : tasks) {
+        if (task.id == taskId) {
+            task.isCompleted = true;
+            cout << "Task marked as completed!\n";
+            return;
+        }
     }
+    cout << "Invalid task ID!\n";
 }
-
 
 void removeTask(vector<Task>& tasks) {
     int taskId;
     cout << "Enter the task ID to remove: ";
     cin >> taskId;
 
-  
-    auto it = find_if(tasks.begin(), tasks.end(), [taskId](const auto& task) {
-        return task.id == taskId;
-    });
-
- 
-    if (it!= tasks.end()) {
-        tasks.erase(it);
-        cout << "Task removed successfully!\n";
-    } else {
-        cout << "Invalid task ID!\n";
+    
+    for (auto it = tasks.begin(); it != tasks.end(); ++it) {
+        if (it->id == taskId) {
+            tasks.erase(it);
+            cout << "Task removed successfully!\n";
+            return;
+        }
     }
+    cout << "Invalid task ID!\n";
 }
 
 int main() {
@@ -117,3 +105,4 @@ int main() {
 
     return 0;
 }
+
