@@ -1,10 +1,8 @@
 //TicTacToe Game CPP program
 #include <iostream>
 #include <vector>
-#include <algorithm>
 
 using namespace std;
-
 
 vector<string> board = {"-", "-", "-", "-", "-", "-", "-", "-", "-"};
 
@@ -14,64 +12,74 @@ void printBoard() {
     cout << board[6] << " | " << board[7] << " | " << board[8] << endl;
 }
 
-
 void takeTurn(string player) {
-    cout << player << "'s turn." << endl;
-    cout << "Choose a position from 1-9: ";
+    cout << player << "'s turn. Choose a position from 1-9: ";
     int position;
     cin >> position;
-    position -= 1;
+    position -= 1; 
+
+    
     while (position < 0 || position > 8 || board[position] != "-") {
         cout << "Invalid input or position already taken. Choose a different position: ";
         cin >> position;
-        position -= 1;
+        position -= 1; 
     }
-    board[position] = player;
-    printBoard();
+    board[position] = player; 
+    printBoard(); 
 }
 
-string checkGameOver() {
-   
+bool checkWin() {
+
     if ((board[0] == board[1] && board[1] == board[2] && board[0] != "-") ||
         (board[3] == board[4] && board[4] == board[5] && board[3] != "-") ||
-        (board[6] == board[7] && board[7] == board[8] && board[6] != "-") ||
-        (board[0] == board[3] && board[3] == board[6] && board[0] != "-") ||
+        (board[6] == board[7] && board[7] == board[8] && board[6] != "-")) {
+        return true;
+    }
+   
+    if ((board[0] == board[3] && board[3] == board[6] && board[0] != "-") ||
         (board[1] == board[4] && board[4] == board[7] && board[1] != "-") ||
-        (board[2] == board[5] && board[5] == board[8] && board[2] != "-") ||
-        (board[0] == board[4] && board[4] == board[8] && board[0] != "-") ||
-        (board[2] == board[4] && board[4] == board[6] && board[2] != "-")) {
-        return "win";
+        (board[2] == board[5] && board[5] == board[8] && board[2] != "-")) {
+        return true;
     }
   
-    else if (count(board.begin(), board.end(), "-") == 0) {
-        return "tie";
+    if ((board[0] == board[4] && board[4] == board[8] && board[0] != "-") ||
+        (board[2] == board[4] && board[4] == board[6] && board[2] != "-")) {
+        return true;
     }
-
-    else {
-        return "play";
-    }
+    return false;
 }
 
+bool checkTie() {
+    for (int i = 0; i < board.size(); i++) {
+        if (board[i] == "-") {
+            return false; 
+        }
+    }
+    return true;
+}
 
-int main() 
-{
+int main() {
+    cout << "Welcome to Tic-Tac-Toe!" << endl;
     printBoard();
+
     string currentPlayer = "X";
     bool gameOver = false;
+
     while (!gameOver) {
         takeTurn(currentPlayer);
-        string gameResult = checkGameOver();
-        if (gameResult == "win") {
+
+        if (checkWin()) {
             cout << currentPlayer << " wins!" << endl;
             gameOver = true;
-        } else if (gameResult == "tie") {
+        } else if (checkTie()) {
             cout << "It's a tie!" << endl;
             gameOver = true;
         } else {
-           
-            currentPlayer = currentPlayer == "X" ? "O" : "X";
+            currentPlayer = (currentPlayer == "X") ? "O" : "X"; 
         }
     }
-    return 0;
 
+    cout << "Game over. Thanks for playing!" << endl;
+    return 0;
 }
+
